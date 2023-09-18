@@ -4,6 +4,8 @@ class HashTable:
 
     :param size: Size of the hash table.
     """
+    GA_RATIO = (5 ** 0.5 - 1) / 2
+
     def __init__(self, size: int):
         self.size = size
         self.table = [[] for _ in range(size)]
@@ -13,8 +15,7 @@ class HashTable:
         self.table[index].append(key)
 
     def calcKey(self, key: str) -> int:
-        A = (5 ** 0.5 - 1) / 2
-        hash_value = sum(ord(char) * (A ** i) for i, char in enumerate(key, 1))
+        hash_value = sum(ord(char) * (self.GA_RATIO ** i) for i, char in enumerate(key, 1))
         return int(self.size * (hash_value % 1))
 
     def delKey(self, key: str):
@@ -31,8 +32,15 @@ class HashTable:
             return index
         else:
             return None
-
-
+        
+    def searchKey(self, key: str) -> bool:
+        index = self.calcKey(key)
+        if key in self.table[index]:
+            return True
+        else:
+            return False
+        
+    
 if __name__ == "__main__":
     hashTable = HashTable(10)
     hashTable.addKey("AJKDSJFPDAS")
